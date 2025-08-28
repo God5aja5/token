@@ -1,10 +1,20 @@
 from flask import Flask, jsonify
 from playwright.sync_api import sync_playwright
+import subprocess
 import random
 import json
 import re
 
 app = Flask(__name__)
+
+# Ensure Playwright browsers are installed at runtime
+def ensure_playwright_installed():
+    try:
+        subprocess.run(["playwright", "install", "chromium"], check=True)
+    except Exception as e:
+        print(f"Error installing Playwright browsers: {e}")
+
+ensure_playwright_installed()
 
 def run_playwright_task():
     random_texts = [
